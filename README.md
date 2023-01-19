@@ -39,7 +39,7 @@ If the prices of two orders with opposite sides match, i.e the buy price is high
 then, a trade is generated. 
 For example if the orderbook contains an order to sell 10 mw for 10 euros/mwh and another trader 
 submits an order to buy 5 mw for 11 euros/mwh, the orders are matched by the exchange and a trade is 
-generated for 5mw at 11 euros/mwh.
+generated for 5mw at 10 euros/mwh.
 
 Those trades are saved by flex power and used to compute various indicators on the 
 performance of our trading strategies. 
@@ -79,7 +79,7 @@ realized with each trade.
 
 If we sell energy, our income is `quantity * price` since we got money for our electricity. If we buy energy, our income is `-quantity * price`.
 ```python
-def compute_total_sell_volume(strategy_id: str, *args, **kwargs) -> float:
+def compute_pnl(strategy_id: str, *args, **kwargs) -> float:
     pass
 ```
 This function should return 0 it there are no trades that correspond to the strategy id.
