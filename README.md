@@ -103,7 +103,7 @@ paths:
       summary: Returns the pnl of the corresponding strategy.
       parameters:
         - in: path
-          name: user_id
+          name: strategy_id
           required: true
           type: string
           description: string identifier of a strategy.
