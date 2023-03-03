@@ -1,0 +1,109 @@
+openapi: 3.0.0
+info:
+  title: Trades API
+  version: 0.1.0
+servers:
+- url: http://0.0.0.0:8080/v1
+  description: Local development server
+components:
+  schemas:
+    Trade:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "trade_123"
+          description: Unique id of the trade as defined by the exchange
+        price:
+          type: integer
+          description: Price in eurocent/MWh.
+          example: 200
+        quantity:
+          description: Quantity in MW.
+          type: integer
+          example: 12
+        direction:
+          type: string
+          pattern: '^(buy|sell)$'
+          description: Direction of the trade from the perspective of flew-power, can be either buy or sell.
+        delivery_day:
+          type: string
+          format: date
+          description: Day on which the energy has to be delivered in local time.
+        delivery_hour:
+          type: integer
+          example: 14
+          description: Hour during which the energy has to be delivered in local time.
+        trader_id:
+          type: string
+          description: Unique id of a trader (bot or team member).
+          example: "MirkoT"
+        execution_time:
+          type: string
+          format: date-time
+          description: UTC datetime at which the trade occured on the exchange.
+    Error:
+      type: object
+      properties:
+        status_code:
+          type: integer
+        message:
+          type: string
+          description: Descriptive error message
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+paths:
+  /trades:
+    get:
+      description: Request a list of trades.
+      parameters:
+        - in: query
+          name: trader_id
+          schema:
+            type: string
+          description: Unique id of a trader (bot or team member).
+          example: "MirkoT"
+        - in: query
+          name: delivery_day
+          schema:
+            type: string
+            format: date
+          description: Day on which the energy has to be delivered in local time.
+      responses:
+        200:
+          description: The trades corresponding to the submitted query
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Trade'
+        400:
+          description: Query parameter invalid.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      description: Add new trade to the database.
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Trade'
+      responses:
+        200:
+          description: Trade successfully added.
+        400:
+          description: Trade couldn't be added due to invalid data.
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+
+

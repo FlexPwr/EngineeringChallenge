@@ -1,0 +1,4 @@
+id,price,quantity,direction,delivery_day,delivery_hour,trader_id,execution_time
+t_123,120,12,sell,2023-02-28,14,trader_1,2023-02-28T11:12:35Z
+t_456,78,57,buy,2023-02-28,9,trader_2,2023-02-28T07:45:12Z
+t_789,34,18,sell,2023-02-28,20,trader_2,2023-02-28T16:23:38Z
